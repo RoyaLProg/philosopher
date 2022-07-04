@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 01:56:25 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/02 21:27:51 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/07/04 20:01:15 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	thinking(t_philosopher *philo, t_philo *p)
 		p->n);
 }
 
-void	take_forks(t_philosopher *philo, t_philo *p)
+void	taking_fork(t_philosopher *philo, t_philo *p)
 {
-	printf("%lu philo %d is taking forks ", timeoftheday() - philo->start_time,
+	printf("%lu philo %d has taken forks ", timeoftheday() - philo->start_time,
 		p->n);
 }
 
