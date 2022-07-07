@@ -6,11 +6,10 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:43:45 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/04 00:59:05 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/07/07 18:31:28 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "philosopher.h"
 
 void	*ft_malloc(size_t size, t_philosopher	*philo)
