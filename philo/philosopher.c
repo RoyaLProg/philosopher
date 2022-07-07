@@ -6,13 +6,11 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:56:57 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/01 22:38:12 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/07/07 18:30:57 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
-#include <pthread.h>
-#include <stdio.h>
 
 int	main(void)
 {
