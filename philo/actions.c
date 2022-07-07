@@ -6,28 +6,24 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 00:24:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/04 20:01:07 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/07/08 00:24:15 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-// void	eat(t_philosopher *philo, t_philo *p)
-// {
-// }
-
-void	sleep(t_philosopher *philo, t_philo *p)
+void	p_sleep(t_philosopher *philo, t_philo *p)
 {
 	long long int	x;
 
-	x = will_die();
-	if (x > 0)
+	x = will_die(philo, p, philo->params[3]);
+	if (x >= 0)
 	{
-		p->lasteat = gettimeofday();
 		usleep(x);
+		die(philo, p);
 	}
+	usleep(philo->params[3]);
 	sleeping(philo, p);
-	usleep(philo->params[2]);
 }
 
 void	die(t_philosopher *philo, t_philo *p)
@@ -43,20 +39,43 @@ void	die(t_philosopher *philo, t_philo *p)
 			tmp = tmp->next;
 			continue ;
 		}
-		pthread_mutex_destroy(&tmp->fork);
+		pthread_mutex_destroy(tmp->fork);
 		pthread_detach(tmp->thread);
 		tmp = tmp->next;
 	}
-	pthread_mutex_destroy(&p->fork);
+	pthread_mutex_destroy(p->fork);
 	pthread_detach(p->thread);
 }
 
-char	take_fork(t_philosopher *philo, t_philo *p)
+char	take_fork(t_philosopher *philo, t_philo *p, pthread_mutex_t *fork)
 {
-	if (pthread_mutex_lock(&p->fork) == 0)
+	if (pthread_mutex_lock(fork) == 0)
 	{
 		taking_fork(philo, p);
 		return (1);
+	}
+	return (0);
+}
+
+char	eat(t_philosopher *philo, t_philo *p)
+{
+	if (take_fork(philo, p, p->fork))
+	{
+		if (take_fork(philo, p, p->last->fork))
+		{
+			p->lasteat = gettimeofday();
+			eating(philo, p);
+			usleep(philo->params[2]);
+			p->times_eat++;
+			pthread_mutex_unlock(p->last->fork);
+			pthread_mutex_unlock(p->fork);
+			return (1);
+		}
+		else
+		{
+			pthread_mutex_unlock(p->fork);
+			return (0);
+		}
 	}
 	return (0);
 }
