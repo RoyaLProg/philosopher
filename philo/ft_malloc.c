@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:43:45 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/07 18:31:28 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/07/08 19:52:00 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*ft_malloc(size_t size, t_philosopher	*philo)
 	obj->ptr = ptr;
 	obj->next = NULL;
 	if (philo->o_head != NULL)
-		add_end_list(philo->o_head, obj);
+		add_end_obj(philo->o_head, obj);
 	else
 		philo->o_head = obj;
 	return (ptr);
@@ -59,7 +59,7 @@ void	ft_free(void *ptr, t_philosopher *philo)
 	x = philo->o_head;
 	while (x != NULL)
 	{
-		if (x->ptr == ptr)
+		if (&x->ptr == &ptr)
 		{
 			free(ptr);
 			break ;
