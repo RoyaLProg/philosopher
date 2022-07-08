@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 00:24:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/08 00:24:15 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/07/08 20:53:08 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	p_sleep(t_philosopher *philo, t_philo *p)
 {
-	long long int	x;
+	suseconds_t	x;
 
 	x = will_die(philo, p, philo->params[3]);
 	if (x >= 0)
@@ -63,7 +63,7 @@ char	eat(t_philosopher *philo, t_philo *p)
 	{
 		if (take_fork(philo, p, p->last->fork))
 		{
-			p->lasteat = gettimeofday();
+			p->lasteat = get_time();
 			eating(philo, p);
 			usleep(philo->params[2]);
 			p->times_eat++;
@@ -77,5 +77,7 @@ char	eat(t_philosopher *philo, t_philo *p)
 			return (0);
 		}
 	}
+	if (finnish(philo))
+		end(philo);
 	return (0);
 }
