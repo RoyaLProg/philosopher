@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:03:21 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/08 20:10:13 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/07/10 21:53:29 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 static char	init_mutex(t_philo *p, t_philosopher *philo)
 {
-	pthread_mutex_t	*mutex;
-
 	p->fork = (pthread_mutex_t *)ft_malloc(sizeof(pthread_mutex_t), philo);
 	if (p->fork == NULL)
-		return ;
+		return (0);
 	if (pthread_mutex_init(p->fork, NULL) != 0)
 	{
 		ft_error("Could not initialize mutex !");
@@ -29,10 +27,12 @@ static char	init_mutex(t_philo *p, t_philosopher *philo)
 
 static char	init_thread(t_philo *p, t_philosopher *philo)
 {
-	p->thread = (pthread_t *)ft_malloc(sizeof(pthread_t), philo);
-	if (p->thread == NULL)
-		return ;
-	if (pthread_create(p->thread, NULL, routine, p) != 0)
+	t_package	*x;
+
+	x = ft_malloc(sizeof(t_package), philo);
+	x->philo = p;
+	x->philosopher = philo;
+	if (pthread_create(&p->thread, NULL, routine, x) != 0)
 	{
 		ft_error("Could not create thread !");
 		return (0);
@@ -54,19 +54,18 @@ static char	init_philo2(t_philosopher *philo, t_philo *p, size_t i,
 	p->n = i + 1;
 	p->times_eat = 0;
 	p->lasteat = 0;
-	if (!init_thread(p, philo))
-		return (0);
 	if (!init_mutex(p, philo))
+		return (0);
+	if (!init_thread(p, philo))
 		return (0);
 	if (last != NULL)
 		last->next = p;
-
 	return (1);
 }
 
-void	init_philos(t_philosopher *philo)
+char	init_philos(t_philosopher *philo)
 {
-	size_t			i;
+	long int		i;
 	t_philo			*last;
 	t_philo			*p;
 
@@ -78,13 +77,13 @@ void	init_philos(t_philosopher *philo)
 		if (p == NULL)
 		{
 			ft_error("Could not allocate memory !");
-			abort_philo(philo, p, i);
+			abort_philo(philo, i);
 			return (0);
 		}
 		last = p;
 		if (!init_philo2(philo, p, i, last))
 		{
-			abort_philo(philo, p, i);
+			abort_philo(philo, i);
 			return (0);
 		}
 	}
