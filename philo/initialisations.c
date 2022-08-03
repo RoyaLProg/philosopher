@@ -6,22 +6,35 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:03:21 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/10 21:53:29 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/03 03:27:00 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-static char	init_mutex(t_philo *p, t_philosopher *philo)
+static char	init_mutex(t_philosopher *philo)
 {
-	p->fork = (pthread_mutex_t *)ft_malloc(sizeof(pthread_mutex_t), philo);
-	if (p->fork == NULL)
-		return (0);
-	if (pthread_mutex_init(p->fork, NULL) != 0)
+	size_t	i;
+
+	philo->forks = (pthread_mutex_t *)
+		ft_malloc(sizeof(pthread_mutex_t) * philo->nb_philo, philo);
+	if (!philo->forks)
 	{
-		ft_error("Could not initialize mutex !");
+		ft_error("Could not allocate memory for forks");
+		abort_philo(philo, philo->nb_philo);
 		return (0);
 	}
+	i = 0;
+	while (i < philo->nb_philo)
+	{
+		if (pthread_mutex_init(&philo->forks[i], NULL) != 0)
+		{
+			abort_philo(philo, philo->nb_philo);
+			return (0);
+		}
+		i++;
+	}
+	pthread_mutex_init(&philo->fork_lock, NULL);
 	return (1);
 }
 
@@ -37,11 +50,6 @@ static char	init_thread(t_philo *p, t_philosopher *philo)
 		ft_error("Could not create thread !");
 		return (0);
 	}
-	if (pthread_join(p->thread, NULL) != 0)
-	{
-		ft_error("Could not join thread !");
-		return (0);
-	}
 	return (1);
 }
 
@@ -54,24 +62,30 @@ static char	init_philo2(t_philosopher *philo, t_philo *p, size_t i,
 	p->n = i + 1;
 	p->times_eat = 0;
 	p->lasteat = 0;
-	if (!init_mutex(p, philo))
-		return (0);
 	if (!init_thread(p, philo))
 		return (0);
 	if (last != NULL)
 		last->next = p;
+	p->forks[0] = 0;
+	p->forks[1] = 0;
 	return (1);
 }
 
 char	init_philos(t_philosopher *philo)
 {
-	long int		i;
+	size_t			i;
 	t_philo			*last;
 	t_philo			*p;
 
+	if (!init_mutex(philo))
+	{
+		ft_error("Could not initialize mutexes !");
+		abort_philo(philo, 0);
+		return (0);
+	}
 	i = -1;
 	last = NULL;
-	while (++i < philo->params[0])
+	while (++i < philo->nb_philo)
 	{
 		p = (t_philo *)ft_malloc(sizeof(t_philo), philo);
 		if (p == NULL)

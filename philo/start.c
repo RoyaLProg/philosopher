@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   abort_philo.c                                      :+:      :+:    :+:   */
+/*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/08 20:10:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/01 21:34:04 by ccambium         ###   ########.fr       */
+/*   Created: 2022/07/12 23:21:35 by ccambium          #+#    #+#             */
+/*   Updated: 2022/07/31 23:02:25 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	abort_philo(t_philosopher *philo, size_t n)
+char	start(t_philosopher *philo, t_philo *head)
 {
-	size_t	i;
-	t_philo	*p;
+	t_philo	*x;
 
-	ft_info("Aborting philosopher...");
-	i = -1;
-	p = philo->p_head;
-	while (++i < n)
+	x = head;
+	while (x != NULL)
 	{
-		pthread_detach(p->thread);
-		p = p->next;
+		if (pthread_join(x->thread, NULL) != 0)
+		{
+			ft_error("Could not join thread !");
+			abort_philo(philo, philo->nb_philo);
+			return (0);
+		}
+		x = x->next;
+		usleep(800);
 	}
-	if (philo->forks != NULL)
-	{
-		i = -1;
-		while (++i < n)
-			pthread_mutex_destroy(&philo->forks[i]);
-		pthread_mutex_destroy(&philo->fork_lock);
-	}
+	return (1);
 }

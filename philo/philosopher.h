@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 23:49:38 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/10 21:23:53 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/07/31 18:14:45 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ typedef struct s_philo
 	pthread_t		thread;
 	long long int	times_eat;
 	size_t			n;
-	pthread_mutex_t	*fork;
+	char			forks[2];
+	suseconds_t		start_time;
 	suseconds_t		lasteat;
 	struct s_philo	*last;
 	struct s_philo	*next;
@@ -39,11 +40,15 @@ typedef struct s_obj
 */
 typedef struct s_philosopher
 {
-	suseconds_t		params[3];
+	size_t			nb_philo;
+	suseconds_t		time_die;
+	suseconds_t		time_eat;
+	suseconds_t		time_sleep;
 	long long int	times_to_eat;
+	pthread_mutex_t	fork_lock;
+	pthread_mutex_t	*forks;
 	t_obj			*o_head;
 	t_philo			*p_head;
-	suseconds_t		start_time;
 }	t_philosopher;
 
 typedef struct s_package
@@ -55,25 +60,28 @@ typedef struct s_package
 char			finish(t_philosopher *philo);
 char			init_philos(t_philosopher *philo);
 char			eat(t_philosopher *philo, t_philo *p);
+char			start(t_philosopher *philo, t_philo *head);
+char			take_fork( t_philo *p, pthread_mutex_t *fork);
 char			check_death(t_philosopher *philo, t_philo *p);
 
-void			*routine(void *arg);
+void			death(t_philo *p);
+void			eating(t_philo *p);
+void			sleeping(t_philo *p);
+void			thinking(t_philo *p);
 void			ft_info(const char *s);
+void			taking_fork(t_philo *p);
 void			ft_error(const char *s);
 void			end(t_philosopher *philo);
 void			free_all(t_philosopher *philo);
 void			add_end_obj(t_obj *head, t_obj *obj);
 void			die(t_philosopher *philo, t_philo *p);
 void			think(t_philosopher *philo, t_philo *p);
-void			death(t_philosopher *philo, t_philo *p);
 void			ft_free(void *ptr, t_philosopher *philo);
-void			eating(t_philosopher *philo, t_philo *p);
 void			p_sleep(t_philosopher *philo, t_philo *p);
-void			sleeping(t_philosopher *philo, t_philo *p);
-void			thinking(t_philosopher *philo, t_philo *p);
 void			abort_philo(t_philosopher *philo, size_t n);
+
+void			*routine(void *arg);
 void			*ft_malloc(size_t size, t_philosopher *philo);
-void			taking_fork(t_philosopher *philo, t_philo *p);
 
 size_t			ft_strlen(const char *s);
 

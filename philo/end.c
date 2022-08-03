@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 20:42:35 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/08 21:02:00 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/01 21:24:14 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	end(t_philosopher *philo)
 	while (p != NULL)
 	{
 		pthread_detach(p->thread);
-		if (p->fork != NULL)
-			pthread_mutex_destroy(p->fork);
+		pthread_mutex_destroy(&philo->forks[p->n - 1]);
 		p = p->next;
 	}
 }
