@@ -16,13 +16,13 @@ suseconds_t	will_die(t_philosopher *philo, t_philo *p, long long int t)
 {
 	if (p->lasteat == 0)
 	{
-		if (get_time() - p->start_time + t > philo->time_die)
-			return (get_time() - p->start_time + t - philo->time_die);
+		if (get_time() - p->start_time + t > philo->time_die * 1000)
+			return (get_time() - p->start_time + t - philo->time_die * 1000);
 		else
 			return (-1);
 	}
-	if (get_time() - p->lasteat + t > philo->time_die)
-		return ((get_time() - p->lasteat + t) - philo->time_die);
+	if (get_time() - p->lasteat + t > philo->time_die * 1000)
+		return ((get_time() - p->lasteat + t) - philo->time_die * 1000);
 	else
 		return (-1);
 }

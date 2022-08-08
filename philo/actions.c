@@ -20,11 +20,11 @@ void	p_sleep(t_philosopher *philo, t_philo *p)
 	if (x >= 0)
 	{
 		sleeping(p);
-		usleep(x);
+		usleep(x * 1000);
 		die(philo, p);
 	}
-	usleep(philo->time_sleep);
 	sleeping(p);
+	usleep(philo->time_sleep * 1000);
 }
 
 void	die(t_philosopher *philo, t_philo *p)
@@ -62,7 +62,7 @@ char	take_fork( t_philo *p, pthread_mutex_t *fork)
 char	eat(t_philosopher *philo, t_philo *p)
 {
 	eating(p);
-	usleep(philo->time_eat);
+	usleep(philo->time_eat * 1000);
 	p->lasteat = get_time();
 	if (finish(philo))
 		end(philo);

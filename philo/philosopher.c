@@ -19,9 +19,9 @@ int	main(void)
 	philo.o_head = NULL;
 	philo.p_head = NULL;
 	philo.nb_philo = 5;
-	philo.time_die = 5500;
-	philo.time_eat = 1250;
-	philo.time_sleep = 1000;
+	philo.time_die = 50500;
+	philo.time_eat = 10250;
+	philo.time_sleep = 5000;
 	philo.times_to_eat = -1;
 	if (!init_philos(&philo))
 	{
