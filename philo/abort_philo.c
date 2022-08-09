@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 20:10:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/01 21:34:04 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/09 08:34:31 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,5 @@ void	abort_philo(t_philosopher *philo, size_t n)
 		i = -1;
 		while (++i < n)
 			pthread_mutex_destroy(&philo->forks[i]);
-		pthread_mutex_destroy(&philo->fork_lock);
 	}
 }

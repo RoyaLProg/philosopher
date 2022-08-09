@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:44:53 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/01 22:58:58 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/09 08:30:45 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,19 @@ void	*routine(void *arg)
 		if (p->n == philo->nb_philo)
 		{
 			pthread_mutex_lock(&philo->forks[0]);
-			taking_fork(p);
 			pthread_mutex_lock(&philo->forks[p->n - 1]);
+			taking_fork(p);
 			taking_fork(p);
 		}
 		else
 		{
 			pthread_mutex_lock(&philo->forks[p->n - 1]);
-			taking_fork(p);
 			pthread_mutex_lock(&philo->forks[p->n]);
 			taking_fork(p);
+			taking_fork(p);
 		}
+		if (philo->end)
+			break ;
 		eat(philo, p);
 		if (p->n == philo->nb_philo)
 		{
@@ -66,8 +68,15 @@ void	*routine(void *arg)
 			pthread_mutex_unlock(&philo->forks[p->n - 1]);
 			pthread_mutex_unlock(&philo->forks[p->n]);
 		}
+		if (philo->end)
+			break ;
 		p_sleep(philo, p);
+		if (philo->end)
+			break ;
 		thinking(p);
+		if (philo->end)
+			break ;
+
 	}
 	return (NULL);
 }

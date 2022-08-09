@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:56:57 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/01 21:27:30 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/09 08:33:58 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ int	main(void)
 
 	philo.o_head = NULL;
 	philo.p_head = NULL;
+	philo.end = 0;
 	philo.nb_philo = 5;
-	philo.time_die = 50500;
+	philo.time_die = 5500;
 	philo.time_eat = 10250;
 	philo.time_sleep = 5000;
 	philo.times_to_eat = -1;

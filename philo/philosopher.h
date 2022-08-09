@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 23:49:38 by ccambium          #+#    #+#             */
-/*   Updated: 2022/07/31 18:14:45 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/09 08:05:40 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_philosopher
 	suseconds_t		time_eat;
 	suseconds_t		time_sleep;
 	long long int	times_to_eat;
-	pthread_mutex_t	fork_lock;
+	short			end;
 	pthread_mutex_t	*forks;
 	t_obj			*o_head;
 	t_philo			*p_head;
