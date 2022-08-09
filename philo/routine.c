@@ -41,12 +41,11 @@ void	*routine(void *arg)
 	p->start_time = get_time();
 	while (1)
 	{
-		pthread_mutex_lock(&philo->fork_lock);
 		if (p->n == philo->nb_philo)
 		{
-			pthread_mutex_lock(&philo->forks[p->n - 1]);
-			taking_fork(p);
 			pthread_mutex_lock(&philo->forks[0]);
+			taking_fork(p);
+			pthread_mutex_lock(&philo->forks[p->n - 1]);
 			taking_fork(p);
 		}
 		else
@@ -56,12 +55,11 @@ void	*routine(void *arg)
 			pthread_mutex_lock(&philo->forks[p->n]);
 			taking_fork(p);
 		}
-		pthread_mutex_unlock(&philo->fork_lock);
 		eat(philo, p);
 		if (p->n == philo->nb_philo)
 		{
-			pthread_mutex_unlock(&philo->forks[p->n - 1]);
 			pthread_mutex_unlock(&philo->forks[0]);
+			pthread_mutex_unlock(&philo->forks[p->n - 1]);
 		}
 		else
 		{
