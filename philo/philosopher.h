@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 23:49:38 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/09 08:05:40 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/11 21:50:09 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_philosopher
 	suseconds_t		time_sleep;
 	long long int	times_to_eat;
 	short			end;
+	pthread_mutex_t	*end_mutex;
 	pthread_mutex_t	*forks;
 	t_obj			*o_head;
 	t_philo			*p_head;
@@ -76,8 +77,9 @@ void			free_all(t_philosopher *philo);
 void			add_end_obj(t_obj *head, t_obj *obj);
 void			die(t_philosopher *philo, t_philo *p);
 void			think(t_philosopher *philo, t_philo *p);
+void			leave(t_philosopher *philo, t_philo *p);
 void			ft_free(void *ptr, t_philosopher *philo);
-void			p_sleep(t_philosopher *philo, t_philo *p);
+char			p_sleep(t_philosopher *philo, t_philo *p);
 void			abort_philo(t_philosopher *philo, size_t n);
 
 void			*routine(void *arg);

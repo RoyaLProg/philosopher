@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:03:21 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/09 08:06:01 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:54:43 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ static char	init_mutex(t_philosopher *philo)
 			return (0);
 		}
 		i++;
+	}
+	philo->end_mutex = (pthread_mutex_t *)
+		ft_malloc(sizeof(pthread_mutex_t), philo);
+	if (!philo->end_mutex)
+	{
+		ft_error("Could not allocate memory for end_mutex");
+		abort_philo(philo, philo->nb_philo);
+		return (0);
+	}
+	if (pthread_mutex_init(philo->end_mutex, NULL) != 0)
+	{
+		abort_philo(philo, philo->nb_philo);
+		return (0);
 	}
 	return (1);
 }

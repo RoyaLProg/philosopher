@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:44:53 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/11 16:07:01 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/11 21:49:58 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ void	*routine(void *arg)
 			pthread_mutex_lock(&philo->forks[0]);
 			pthread_mutex_lock(&philo->forks[p->n - 1]);
 			if (philo->end)
-				break ;
+			{
+				printf("thread %ld exited\n", p->n);
+				leave(philo, p);
+				return (NULL);
+			}
 			taking_fork(p);
 			taking_fork(p);
 		}
@@ -55,16 +59,24 @@ void	*routine(void *arg)
 			pthread_mutex_lock(&philo->forks[p->n - 1]);
 			pthread_mutex_lock(&philo->forks[p->n]);
 			if (philo->end)
-				break ;
+			{
+				printf("thread %ld exited\n", p->n);
+				leave(philo, p);
+				return (NULL);
+			}
 			taking_fork(p);
 			taking_fork(p);
 		}
 		if (philo->end)
-			break ;
+		{
+			printf("thread %ld exited\n", p->n);
+			leave(philo, p);
+			return (NULL);
+		}
 		if (eat(philo, p))
 		{
 			die(philo, p);
-			break ;
+			return (NULL);
 		}
 		if (p->n == philo->nb_philo)
 		{
@@ -77,14 +89,29 @@ void	*routine(void *arg)
 			pthread_mutex_unlock(&philo->forks[p->n]);
 		}
 		if (philo->end)
-			break ;
-		p_sleep(philo, p);
+		{
+			printf("thread %ld exited\n", p->n);
+			leave(philo, p);
+			return (NULL);
+		}
+		if (!p_sleep(philo, p))
+		{
+			return (NULL);
+		}
 		if (philo->end)
-			break ;
+		{
+			printf("thread %ld exited\n", p->n);
+			leave(philo, p);
+			return (NULL);
+		}
 		thinking(p);
 		if (philo->end)
-			break ;
+		{
+			printf("thread %ld exited\n", p->n);
+			leave(philo, p);
+			return (NULL);
+		}
 
 	}
-	return (NULL);
+	return (EXIT_SUCCESS);
 }
