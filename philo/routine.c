@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:44:53 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/11 21:49:58 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/13 05:20:15 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,16 @@ void	*routine(void *arg)
 		if (p->n == philo->nb_philo)
 		{
 			pthread_mutex_lock(&philo->forks[0]);
-			pthread_mutex_lock(&philo->forks[p->n - 1]);
+			p->forks[0] = 1;
 			if (philo->end)
 			{
-				printf("thread %ld exited\n", p->n);
+				leave(philo, p);
+				return (NULL);
+			}
+			pthread_mutex_lock(&philo->forks[p->n - 1]);
+			p->forks[1] = 1;
+			if (philo->end)
+			{
 				leave(philo, p);
 				return (NULL);
 			}
@@ -57,10 +63,16 @@ void	*routine(void *arg)
 		else
 		{
 			pthread_mutex_lock(&philo->forks[p->n - 1]);
-			pthread_mutex_lock(&philo->forks[p->n]);
+			p->forks[0] = 1;
 			if (philo->end)
 			{
-				printf("thread %ld exited\n", p->n);
+				leave(philo, p);
+				return (NULL);
+			}
+			pthread_mutex_lock(&philo->forks[p->n]);
+			p->forks[1] = 1;
+			if (philo->end)
+			{
 				leave(philo, p);
 				return (NULL);
 			}
@@ -68,8 +80,7 @@ void	*routine(void *arg)
 			taking_fork(p);
 		}
 		if (philo->end)
-		{
-			printf("thread %ld exited\n", p->n);
+		{			
 			leave(philo, p);
 			return (NULL);
 		}
@@ -78,40 +89,23 @@ void	*routine(void *arg)
 			die(philo, p);
 			return (NULL);
 		}
+		if (p->forks[0])
+			pthread_mutex_unlock(&philo->forks[p->n - 1]);
 		if (p->n == philo->nb_philo)
-		{
 			pthread_mutex_unlock(&philo->forks[0]);
-			pthread_mutex_unlock(&philo->forks[p->n - 1]);
-		}
 		else
-		{
-			pthread_mutex_unlock(&philo->forks[p->n - 1]);
 			pthread_mutex_unlock(&philo->forks[p->n]);
-		}
+		p->forks[0] = 0;
+		p->forks[1] = 0;
 		if (philo->end)
-		{
-			printf("thread %ld exited\n", p->n);
-			leave(philo, p);
 			return (NULL);
-		}
 		if (!p_sleep(philo, p))
-		{
 			return (NULL);
-		}
 		if (philo->end)
-		{
-			printf("thread %ld exited\n", p->n);
-			leave(philo, p);
 			return (NULL);
-		}
 		thinking(p);
 		if (philo->end)
-		{
-			printf("thread %ld exited\n", p->n);
-			leave(philo, p);
 			return (NULL);
-		}
-
 	}
 	return (EXIT_SUCCESS);
 }

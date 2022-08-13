@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:03:21 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/11 20:54:43 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/13 04:52:23 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ static char	init_philo2(t_philosopher *philo, t_philo *p, size_t i,
 	p->n = i + 1;
 	p->times_eat = 0;
 	p->lasteat = 0;
+	p->forks[0] = 0;
+	p->forks[1] = 0;
 	if (!init_thread(p, philo))
 		return (0);
 	if (last != NULL)
 		last->next = p;
-	p->forks[0] = 0;
-	p->forks[1] = 0;
 	return (1);
 }
 

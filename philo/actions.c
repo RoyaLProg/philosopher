@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 00:24:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/11 22:16:29 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/13 05:20:15 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,15 @@ char	p_sleep(t_philosopher *philo, t_philo *p)
 
 void	die(t_philosopher *philo, t_philo *p)
 {
-	size_t	i;
-
-	i = 0;
-	death(p);
 	pthread_mutex_lock(philo->end_mutex);
+	if (philo->end)
+	{
+		pthread_mutex_unlock(philo->end_mutex);
+		return ;
+	}
+	death(p);
 	philo->end = 1;
 	pthread_mutex_unlock(philo->end_mutex);
-	leave(philo, p);
-	while (i < philo->nb_philo)
-	{
-		pthread_mutex_destroy(&philo->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(philo->end_mutex);
 }
 
 char	take_fork( t_philo *p, pthread_mutex_t *fork)
@@ -77,14 +72,15 @@ char	eat(t_philosopher *philo, t_philo *p)
 
 void	leave(t_philosopher *philo, t_philo *p)
 {
-	if (p->n == philo->nb_philo)
-	{
-		pthread_mutex_unlock(&philo->forks[0]);
+	if (p->forks[0])
 		pthread_mutex_unlock(&philo->forks[p->n - 1]);
-	}
-	else
+	p->forks[0] = 0;
+	if (p->forks[1])
 	{
-		pthread_mutex_unlock(&philo->forks[p->n - 1]);
-		pthread_mutex_unlock(&philo->forks[p->n]);
+		if (p->n == philo->nb_philo)
+			pthread_mutex_unlock(&philo->forks[0]);
+		else
+			pthread_mutex_unlock(&philo->forks[p->n]);
 	}
+	p->forks[1] = 0;
 }
