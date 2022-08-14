@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 04:42:01 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 06:20:35 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 07:49:14 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static char	nb_philo(t_philosopher *philo, char *param)
 		return (0);
 	v = ft_atollu(param);
 	if (v > 4294967295)
+		return (0);
+	if (v == 0)
 		return (0);
 	philo->nb_philo = v;
 	return (1);

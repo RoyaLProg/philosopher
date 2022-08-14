@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 23:49:38 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 06:03:44 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 10:26:31 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ typedef struct s_philosopher
 	long long int	times_to_eat;
 	short			end;
 	pthread_mutex_t	*end_mutex;
+	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	*forks;
+	char			*b_fork;
 	t_obj			*o_head;
 	t_philo			*p_head;
 }	t_philosopher;
@@ -66,10 +68,10 @@ char				is_end(t_philosopher *philo);
 char				init_philos(t_philosopher *philo);
 char				eat(t_philosopher *philo, t_philo *p);
 char				start(t_philosopher *philo, t_philo *head);
+char				take_forks(t_philosopher *philo, t_philo *p);
+char				check_forks(t_philosopher *philo, t_philo *p);
 char				check_death(t_philosopher *philo, t_philo *p);
-char				take_fork( t_philo *p, pthread_mutex_t *fork);
 char				verification(t_philosopher *philo, char **av, int ac);
-
 void				death(t_philo *p);
 void				eating(t_philo *p);
 void				sleeping(t_philo *p);
@@ -86,6 +88,7 @@ void				think(t_philosopher *philo, t_philo *p);
 void				ft_free(void *ptr, t_philosopher *philo);
 char				p_sleep(t_philosopher *philo, t_philo *p);
 void				abort_philo(t_philosopher *philo, size_t n);
+void				release_forks(t_philosopher *philo, t_philo *p);
 
 void				*routine(void *arg);
 void				*ft_malloc(size_t size, t_philosopher *philo);

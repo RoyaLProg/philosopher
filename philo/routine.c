@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:44:53 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/13 09:47:36 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 08:57:28 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,71 +41,16 @@ void	*routine(void *arg)
 	p->start_time = get_time();
 	while (1)
 	{
-		if (p->n == philo->nb_philo)
-		{
-			pthread_mutex_lock(&philo->forks[0]);
-			p->forks[0] = 1;
-			if (is_end(philo))
-			{
-				leave(philo, p);
-				return (NULL);
-			}
-			pthread_mutex_lock(&philo->forks[p->n - 1]);
-			p->forks[1] = 1;
-			if (is_end(philo))
-			{
-				leave(philo, p);
-				return (NULL);
-			}
-			taking_fork(p);
-			taking_fork(p);
-		}
-		else
-		{
-			pthread_mutex_lock(&philo->forks[p->n - 1]);
-			p->forks[0] = 1;
-			if (is_end(philo))
-			{
-				leave(philo, p);
-				return (NULL);
-			}
-			pthread_mutex_lock(&philo->forks[p->n]);
-			p->forks[1] = 1;
-			if (is_end(philo))
-			{
-				leave(philo, p);
-				return (NULL);
-			}
-			taking_fork(p);
-			taking_fork(p);
-		}
-		if (is_end(philo))
-		{			
-			leave(philo, p);
+		if (!take_forks(philo, p))
 			return (NULL);
-		}
 		if (eat(philo, p))
-		{
-			die(philo, p);
 			return (NULL);
-		}
-		if (p->forks[0])
-			pthread_mutex_unlock(&philo->forks[p->n - 1]);
-		if (p->n == philo->nb_philo && p->forks[1])
-			pthread_mutex_unlock(&philo->forks[0]);
-		else if (p->forks[1])
-			pthread_mutex_unlock(&philo->forks[p->n]);
-		p->forks[0] = 0;
-		p->forks[1] = 0;
-		if (is_end(philo))
-			return (NULL);
+		release_forks(philo, p);
 		if (!p_sleep(philo, p))
 			return (NULL);
 		if (is_end(philo))
 			return (NULL);
 		thinking(p);
-		if (is_end(philo))
-			return (NULL);
 	}
 	return (EXIT_SUCCESS);
 }
