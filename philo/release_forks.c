@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 08:56:35 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 09:22:44 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 16:49:53 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,19 @@
 
 void	release_forks(t_philosopher *philo, t_philo *p)
 {
-	if (p->forks[0])
+	pthread_mutex_lock(&philo->forks[p->n - 1]);
+	philo->b_fork[p->n - 1] = 0;
+	pthread_mutex_unlock(&philo->forks[p->n - 1]);
+	if (p->n == philo->nb_philo)
 	{
-		pthread_mutex_unlock(&philo->forks[p->n - 1]);
-		pthread_mutex_lock(philo->fork_mutex);
-		philo->b_fork[p->n - 1] = 0;
-		pthread_mutex_unlock(philo->fork_mutex);
-	}
-	if (p->n == philo->nb_philo && p->forks[1])
-	{
-		pthread_mutex_unlock(&philo->forks[0]);
-		pthread_mutex_lock(philo->fork_mutex);
+		pthread_mutex_lock(&philo->forks[0]);
 		philo->b_fork[0] = 0;
-		pthread_mutex_unlock(philo->fork_mutex);
+		pthread_mutex_unlock(&philo->forks[0]);
 	}
-	else if (p->forks[1])
+	else
 	{
-		pthread_mutex_unlock(&philo->forks[p->n]);
-		pthread_mutex_lock(philo->fork_mutex);
+		pthread_mutex_lock(&philo->forks[p->n]);
 		philo->b_fork[p->n] = 0;
-		pthread_mutex_unlock(philo->fork_mutex);
+		pthread_mutex_unlock(&philo->forks[p->n]);
 	}
-	p->forks[0] = 0;
-	p->forks[1] = 0;
 }

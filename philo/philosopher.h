@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 23:49:38 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 10:26:31 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 18:08:00 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_philo
 	char			forks[2];
 	suseconds_t		start_time;
 	suseconds_t		lasteat;
+	pthread_mutex_t	m;
 	struct s_philo	*last;
 	struct s_philo	*next;
 }	t_philo;
@@ -48,7 +49,6 @@ typedef struct s_philosopher
 	long long int	times_to_eat;
 	short			end;
 	pthread_mutex_t	*end_mutex;
-	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	*forks;
 	char			*b_fork;
 	t_obj			*o_head;
@@ -71,7 +71,9 @@ char				start(t_philosopher *philo, t_philo *head);
 char				take_forks(t_philosopher *philo, t_philo *p);
 char				check_forks(t_philosopher *philo, t_philo *p);
 char				check_death(t_philosopher *philo, t_philo *p);
+char				char_ternary(char condition, char true, char false);
 char				verification(t_philosopher *philo, char **av, int ac);
+
 void				death(t_philo *p);
 void				eating(t_philo *p);
 void				sleeping(t_philo *p);
@@ -83,7 +85,6 @@ void				end(t_philosopher *philo);
 void				free_all(t_philosopher *philo);
 void				add_end_obj(t_obj *head, t_obj *obj);
 void				die(t_philosopher *philo, t_philo *p);
-void				leave(t_philosopher *philo, t_philo *p);
 void				think(t_philosopher *philo, t_philo *p);
 void				ft_free(void *ptr, t_philosopher *philo);
 char				p_sleep(t_philosopher *philo, t_philo *p);
