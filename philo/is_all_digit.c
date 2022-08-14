@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_death.c                                      :+:      :+:    :+:   */
+/*   is_all_digit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/30 22:32:43 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 06:14:56 by ccambium         ###   ########.fr       */
+/*   Created: 2022/08/14 04:56:06 by ccambium          #+#    #+#             */
+/*   Updated: 2022/08/14 04:57:12 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-char	check_death(t_philosopher *philo, t_philo *p)
+char	is_all_digit(char *str)
 {
-	if (p->lasteat == 0)
+	size_t	i;
+
+	i = 0;
+	while (str[i])
 	{
-		if (get_time() - p->start_time > philo->time_die)
-			return (1);
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
 	}
-	else if (get_time() - p->lasteat > philo->time_die)
-		return (1);
-	return (0);
+	return (1);
 }

@@ -6,32 +6,32 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:56:57 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 03:54:12 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 06:22:53 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-int	main(void)
+int	main(int ac, char **av)
 {
 	t_philosopher	philo;
 
 	philo.o_head = NULL;
 	philo.p_head = NULL;
 	philo.end = 0;
-	philo.nb_philo = 5;
-	philo.time_die = 5500;
-	philo.time_eat = 10250;
-	philo.time_sleep = 5000;
-	philo.times_to_eat = -1;
+	if (verification(&philo, av, ac))
+	{
+		printf("verifications failed\n");
+		return (EXIT_FAILURE);
+	}
 	if (!init_philos(&philo))
 	{
-		ft_info("Philosopher has been aborted");
+		ft_info("Philosopher has been aborted\n");
 		return (EXIT_FAILURE);
 	}
 	if (!start(&philo, philo.p_head))
 	{
-		ft_info("Philosopher has been aborted");
+		ft_info("Philosopher has been aborted\n");
 		return (EXIT_FAILURE);
 	}
 	free_all(&philo);

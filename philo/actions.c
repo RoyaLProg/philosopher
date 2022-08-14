@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 00:24:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/13 09:50:03 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 06:11:03 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	p_sleep(t_philosopher *philo, t_philo *p)
 
 void	die(t_philosopher *philo, t_philo *p)
 {
+	leave(philo, p);
 	pthread_mutex_lock(philo->end_mutex);
 	if (philo->end)
 	{
