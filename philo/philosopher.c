@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:56:57 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/13 05:20:49 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 03:54:12 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int	main(void)
 		ft_info("Philosopher has been aborted");
 		return (EXIT_FAILURE);
 	}
-	//free_all(&philo);
+	free_all(&philo);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:03:21 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/13 04:52:23 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 03:48:14 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,12 @@ char	init_philos(t_philosopher *philo)
 			abort_philo(philo, i);
 			return (0);
 		}
-		last = p;
 		if (!init_philo2(philo, p, i, last))
 		{
 			abort_philo(philo, i);
 			return (0);
 		}
+		last = p;
 	}
 	p->next = NULL;
 	philo->p_head->last = p;
