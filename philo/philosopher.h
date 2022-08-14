@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 23:49:38 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 18:08:00 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/14 18:32:19 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char				start(t_philosopher *philo, t_philo *head);
 char				take_forks(t_philosopher *philo, t_philo *p);
 char				check_forks(t_philosopher *philo, t_philo *p);
 char				check_death(t_philosopher *philo, t_philo *p);
-char				char_ternary(char condition, char true, char false);
 char				verification(t_philosopher *philo, char **av, int ac);
 
 void				death(t_philo *p);
