@@ -55,10 +55,10 @@ $(NAME): title $(OBJS)
 all: $(NAME)
 
 clean:
-	rm $(OBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	rm $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
