@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 23:49:38 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/13 05:20:24 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/13 09:45:54 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,8 @@ size_t			ft_strlen(const char *s);
 
 suseconds_t		get_time(void);
 suseconds_t		will_die(t_philosopher *philo, t_philo *p, long long int t);
+
+char	is_end(t_philosopher *philo);
+
 
 #endif

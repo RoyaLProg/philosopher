@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 00:24:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/13 05:20:15 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/13 09:50:03 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ char	p_sleep(t_philosopher *philo, t_philo *p)
 {
 	suseconds_t	x;
 
-	if (philo->end)
+	if (is_end(philo))
 		return (0);
 	x = will_die(philo, p, philo->time_sleep);
 	if (x >= 0)
 	{
-		if (philo->end)
+		if (is_end(philo))
 			return (0);
 		sleeping(p);
 		usleep(x * 1000);
 		die(philo, p);
 		return (0);
 	}
-	if (philo->end)
+	if (is_end(philo))
 		return (0);
 	sleeping(p);
 	usleep(philo->time_sleep * 1000);
