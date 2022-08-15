@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:44:53 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 16:54:47 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/15 03:56:41 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@
 
 static void	*alone_routine(t_philo *p, t_philosopher *philo)
 {
-	p->start_time = get_time();
 	usleep(philo->time_die * 1000);
-	death(p);
+	death(p, philo);
 	return (NULL);
 }
 
@@ -48,7 +47,6 @@ void	*routine(void *arg)
 	philo = x->philosopher;
 	if (philo->nb_philo == 1)
 		return (alone_routine(p, philo));
-	p->start_time = get_time();
 	while (1)
 	{
 		if (!take_forks(philo, p))
@@ -59,7 +57,7 @@ void	*routine(void *arg)
 			return (NULL);
 		if (is_end(philo))
 			return (NULL);
-		thinking(p);
+		thinking(p, philo);
 	}
 	return (EXIT_SUCCESS);
 }

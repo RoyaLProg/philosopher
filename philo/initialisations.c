@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 15:03:21 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 18:17:33 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/15 03:54:27 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ static char	init_mutex2(t_philosopher *philo)
 		abort_philo(philo, 0);
 		return (0);
 	}
+	if (pthread_mutex_init(&philo->time, NULL))
+	{
+		ft_error("Could not create end_mutex");
+		abort_philo(philo, 0);
+		return (0);
+	}
+	pthread_mutex_lock(&philo->time);
 	return (1);
 }
 

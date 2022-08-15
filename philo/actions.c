@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 00:24:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/14 18:30:24 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/15 04:00:54 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ char	p_sleep(t_philosopher *philo, t_philo *p)
 	{
 		if (is_end(philo))
 			return (0);
-		sleeping(p);
+		sleeping(p, philo);
 		usleep(x * 1000);
 		die(philo, p);
 		return (0);
 	}
 	if (is_end(philo))
 		return (0);
-	sleeping(p);
+	sleeping(p, philo);
 	usleep(philo->time_sleep * 1000);
 	return (1);
 }
@@ -43,7 +43,7 @@ void	die(t_philosopher *philo, t_philo *p)
 		pthread_mutex_unlock(philo->end_mutex);
 		return ;
 	}
-	death(p);
+	death(p, philo);
 	philo->end = 1;
 	pthread_mutex_unlock(philo->end_mutex);
 }
@@ -59,27 +59,23 @@ char	take_forks(t_philosopher *philo, t_philo *p)
 		}
 		if (is_end(philo))
 			return (0);
+		usleep(1000);
 	}
-	if (check_death(philo, p))
-	{
-		die(philo, p);
-		return (0);
-	}
-	taking_fork(p);
-	taking_fork(p);
+	taking_fork(p, philo);
+	taking_fork(p, philo);
 	return (1);
 }
 
 char	eat(t_philosopher *philo, t_philo *p)
 {
+	if (is_end(philo))
+		return (1);
 	if (check_death(philo, p))
 	{
 		die(philo, p);
 		return (1);
 	}
-	if (is_end(philo))
-		return (1);
-	eating(p);
+	eating(p, philo);
 	usleep(philo->time_eat * 1000);
 	p->lasteat = get_time();
 	pthread_mutex_lock(&p->m);
