@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 00:24:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/15 04:00:54 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/15 04:13:14 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char	take_forks(t_philosopher *philo, t_philo *p)
 		}
 		if (is_end(philo))
 			return (0);
-		usleep(1000);
 	}
 	taking_fork(p, philo);
 	taking_fork(p, philo);
@@ -75,14 +74,17 @@ char	eat(t_philosopher *philo, t_philo *p)
 		die(philo, p);
 		return (1);
 	}
-	eating(p, philo);
-	usleep(philo->time_eat * 1000);
-	p->lasteat = get_time();
 	pthread_mutex_lock(&p->m);
 	p->times_eat++;
 	pthread_mutex_unlock(&p->m);
-	release_forks(philo, p);
+	eating(p, philo);
 	if (finish(philo))
+	{
 		end(philo);
+		return (1);
+	}
+	usleep(philo->time_eat * 1000);
+	p->lasteat = get_time();
+	release_forks(philo, p);
 	return (0);
 }
