@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:44:53 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/15 03:56:41 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/17 04:09:40 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 static void	*alone_routine(t_philo *p, t_philosopher *philo)
 {
+	taking_fork(p, philo);
 	usleep(philo->time_die * 1000);
 	death(p, philo);
 	return (NULL);
