@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   will_die.c                                         :+:      :+:    :+:   */
+/*   mysleep.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/04 01:25:59 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/24 11:20:06 by ccambium         ###   ########.fr       */
+/*   Created: 2022/08/24 10:21:24 by ccambium          #+#    #+#             */
+/*   Updated: 2022/08/24 11:14:25 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-suseconds_t	will_die(t_philosopher *philo, t_philo *p, long long int t)
+char	mysleep(suseconds_t t, t_philo *p, t_philosopher *philo)
 {
-	if (p->lasteat == 0)
+	long	i;
+
+	i = 0;
+	while (!is_end(philo))
 	{
-		pthread_mutex_lock(&philo->time);
-		if (get_time() - philo->start_time + t > philo->time_die)
+		usleep(1000);
+		i++;
+		if (check_death(philo, p))
 		{
-			pthread_mutex_unlock(&philo->time);
-			return (philo->time_die);
+			die(philo, p);
+			return (1);
 		}
-		else
-		{
-			pthread_mutex_unlock(&philo->time);
-			return (-1);
-		}
+		if (i == t)
+			return (0);
 	}
-	if (get_time() - p->lasteat + t > philo->time_die)
-		return (philo->time_die);
-	else
-		return (-1);
+	return (1);
 }

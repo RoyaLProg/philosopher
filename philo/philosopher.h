@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 23:49:38 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/15 03:56:30 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:25:51 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void				*ft_malloc(size_t size, t_philosopher *philo);
 size_t				ft_strlen(const char *s);
 
 suseconds_t			get_time(void);
-suseconds_t			will_die(t_philosopher *philo, t_philo *p, long long int t);
+suseconds_t	will_die(t_philosopher *philo, t_philo *p, long long int t);
 
 long unsigned		ft_atolu(const char *nptr);
 

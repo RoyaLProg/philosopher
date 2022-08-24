@@ -6,28 +6,13 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 22:44:53 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/17 04:09:40 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/24 10:37:07 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
 #include <stdio.h>
-
-// void	*routine(void *arg)
-// {
-// 	t_package	*x;
-
-// 	usleep(50);
-// 	x = (t_package *)arg;
-// 	pthread_detach(x->philo->thread);
-// 	printf("PHILO N : %lu | ENTRE DANS LA ROUTINE\n", x->philo->n);
-// 	ft_free(x, x->philosopher);
-// 	while (1)
-// 		;
-// 	printf("PHILO N : %lu | SORT DE LA ROUTINE\n", x->philo->n);
-// 	return (NULL);
-// }
 
 static void	*alone_routine(t_philo *p, t_philosopher *philo)
 {
@@ -50,11 +35,11 @@ void	*routine(void *arg)
 		return (alone_routine(p, philo));
 	while (1)
 	{
-		if (!take_forks(philo, p))
+		if (take_forks(philo, p))
 			return (NULL);
 		if (eat(philo, p))
 			return (NULL);
-		if (!p_sleep(philo, p))
+		if (p_sleep(philo, p))
 			return (NULL);
 		if (is_end(philo))
 			return (NULL);
