@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 01:25:59 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/24 11:20:06 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:41:05 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ suseconds_t	will_die(t_philosopher *philo, t_philo *p, long long int t)
 		}
 	}
 	if (get_time() - p->lasteat + t > philo->time_die)
-		return (philo->time_die);
+		return ((p->lasteat + philo->time_die) - get_time());
 	else
 		return (-1);
 }
