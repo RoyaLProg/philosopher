@@ -6,7 +6,7 @@
 /*   By: ccambium <ccambium@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 00:24:46 by ccambium          #+#    #+#             */
-/*   Updated: 2022/08/24 11:29:45 by ccambium         ###   ########.fr       */
+/*   Updated: 2022/08/29 13:42:33 by ccambium         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	take_forks(t_philosopher *philo, t_philo *p)
 		}
 		if (is_end(philo))
 			return (1);
-		usleep(500);
 	}
 	taking_fork(p, philo);
 	taking_fork(p, philo);
